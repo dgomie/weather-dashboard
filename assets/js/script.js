@@ -1,7 +1,7 @@
 $(function () {
   var searchButtonEl = $("#search");
 
-  var apiKey = "72c7869051a25b990158d88c78993aa4";
+  var apiKey = require("./config.js");
   var limit = "1";
 
   function searchCityWeather(event) {
