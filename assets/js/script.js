@@ -2,10 +2,9 @@ $(function () {
   $.getScript("./assets/js/config.js", function () {
     console.log("API key loaded");
   });
-  var apikey = API_KEY
- 
+  var apiKey = API_KEY;
+
   var searchButtonEl = $("#search");
-  
 
   function searchCityWeather(event) {
     event.preventDefault();
@@ -19,14 +18,15 @@ $(function () {
 
   function findCityCoords(cityName) {
     var limit = "1";
-    var coordAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKeyey}`;
+    var coordAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
         console.log(data);
-        if (data.length === 0) { //add validation if cityName input returns no results
+        if (data.length === 0) {
+          //add validation if cityName input returns no results
           return alert("Cannot find city name. Please try again.");
         } else {
           console.log(data[0].name);
