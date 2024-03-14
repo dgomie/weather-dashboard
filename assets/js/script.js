@@ -1,7 +1,10 @@
+$.getScript('./assets/js/config.js', function() {
+  console.log('API key loaded:', apiKey);
+});
+
 $(function () {
   var searchButtonEl = $("#search");
-
-  var apiKey = require("./config.js");
+  
   var limit = "1";
 
   function searchCityWeather(event) {
