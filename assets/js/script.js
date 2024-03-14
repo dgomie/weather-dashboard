@@ -2,9 +2,10 @@
 
 $(function () {
   $.getScript("./assets/js/config.js", function () {
-    console.log("API key loaded:", apiKey);
+    console.log("API key loaded");
   });
-  var key = apiKey
+  var apikey = API_KEY
+ 
   var searchButtonEl = $("#search");
   
 
@@ -20,7 +21,7 @@ $(function () {
 
   function findCityCoords(cityName) {
     var limit = "1";
-    var coordAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${key}`;
+    var coordAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKeyey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
@@ -45,7 +46,7 @@ $(function () {
   }
 
   function findCityWeather(lat, lon) {
-    var currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${key}`;
+    var currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
 
     fetch(currentWeatherURL)
       .then(function (response) {
@@ -68,7 +69,7 @@ $(function () {
   }
 
   function getFiveDayForecast(lat, lon) {
-    var fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&cnt=44&appid=${key}`;
+    var fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&cnt=44&appid=${apiKey}`;
 
     fetch(fiveDayURL)
       .then(function (response) {
@@ -197,5 +198,5 @@ $(function () {
   //   TODO: create function that saves cities to local storage
   //   function saveCitySearch(city, lat, lon) {}
 
-  searchButtonEl.on("click", searchCityWeather);
+  // searchButtonEl.on("click", searchCityWeather);
 });
