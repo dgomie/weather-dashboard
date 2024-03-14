@@ -74,9 +74,9 @@ $(function () {
       })
       .then(function (data) {
         console.log(data);
-        var noonWeatherArray = [8, 16, 24, 32, 39];
-        for (let i = 0; i < noonWeatherArray.length; i++) {
-          var arrayItem = noonWeatherArray[i];
+        var afternoonWeatherArray = [8, 16, 24, 32, 39];
+        for (let i = 0; i < afternoonWeatherArray.length; i++) {
+          var arrayItem = afternoonWeatherArray[i];
           var dailyWeatherData = data["list"][arrayItem];
 
           var dailyConditions = dailyWeatherData["weather"]["0"]["id"];
