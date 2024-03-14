@@ -30,8 +30,8 @@ $(function () {
         var cityLon = data[0].lon;
 
         createCityButton(cityNameData, cityLat, cityLon);
-        // findCityWeather(cityLat, cityLon);
-        fiveDayForecast(cityLat, cityLon);
+        findCityWeather(cityLat, cityLon);
+        // fiveDayForecast(cityLat, cityLon);
       });
   }
 
@@ -76,8 +76,9 @@ $(function () {
     var mainTempEl = $("#main-temp");
     var mainWindEl = $("#main-wind");
     var mainHumidityEl = $("#main-humidity");
-
-    mainCityEl.text(city);
+    var currentDate = dayjs().format("MM/DD/YYYY")
+    
+    mainCityEl.text(`${city} (${currentDate})`);
     mainTempEl.html(`Temp: ${temp} &deg;F`);
     mainWindEl.text(`Wind: ${wind} MPH`);
     mainHumidityEl.text(`Humidity: ${humidity}%`);
