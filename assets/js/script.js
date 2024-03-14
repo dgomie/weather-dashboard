@@ -1,5 +1,3 @@
-
-
 $(function () {
   $.getScript("./assets/js/config.js", function () {
     console.log("API key loaded");
@@ -198,5 +196,5 @@ $(function () {
   //   TODO: create function that saves cities to local storage
   //   function saveCitySearch(city, lat, lon) {}
 
-  // searchButtonEl.on("click", searchCityWeather);
+  searchButtonEl.on("click", searchCityWeather);
 });
