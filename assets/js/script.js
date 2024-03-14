@@ -1,10 +1,10 @@
-$.getScript('./assets/js/config.js', function() {
-  console.log('API key loaded:', apiKey);
+$.getScript("./assets/js/config.js", function () {
+  console.log("API key loaded:", apiKey);
 });
 
 $(function () {
   var searchButtonEl = $("#search");
-  
+
   var limit = "1";
 
   function searchCityWeather(event) {
@@ -25,16 +25,20 @@ $(function () {
       })
       .then(function (data) {
         console.log(data);
-        console.log(data[0].name);
-        console.log(data[0].lon);
-        console.log(data[0].lat);
-        var cityNameData = data[0].name;
-        var cityLat = data[0].lat;
-        var cityLon = data[0].lon;
+        if (data.length === 0) { //add validation if cityName input returns no results
+          return alert("Cannot find city name. Please try again.");
+        } else {
+          console.log(data[0].name);
+          console.log(data[0].lon);
+          console.log(data[0].lat);
+          var cityNameData = data[0].name;
+          var cityLat = data[0].lat;
+          var cityLon = data[0].lon;
 
-        createCityButton(cityNameData, cityLat, cityLon);
-        findCityWeather(cityLat, cityLon);
-        getFiveDayForecast(cityLat, cityLon);
+          createCityButton(cityNameData, cityLat, cityLon);
+          findCityWeather(cityLat, cityLon);
+          getFiveDayForecast(cityLat, cityLon);
+        }
       });
   }
 
@@ -70,16 +74,16 @@ $(function () {
       })
       .then(function (data) {
         console.log(data);
-        var noonWeatherArray = [7, 15, 23, 31, 39];
+        var noonWeatherArray = [8, 16, 24, 32, 39];
         for (let i = 0; i < noonWeatherArray.length; i++) {
           var arrayItem = noonWeatherArray[i];
           var dailyWeatherData = data["list"][arrayItem];
 
           var dailyConditions = dailyWeatherData["weather"]["0"]["id"];
-          var dailyTemp = dailyWeatherData["main"]["temp"];
-          var dailyWind = dailyWeatherData["wind"]["speed"];
+          var dailyTemp = dailyWeatherData["main"]["temp_max"];
+          var dailyWind = dailyWeatherData["wind"]["gust"];
           var dailyHumidity = dailyWeatherData["main"]["humidity"];
-          //   TODO: figure out how to get first day in 5day forecast to be one calendar day after main weather date.
+
           var unixDate = dailyWeatherData["dt"];
           var dailyDate = dayjs.unix(unixDate);
           var formattedDate = dailyDate.format("M/DD/YYYY");
@@ -107,7 +111,7 @@ $(function () {
 
     mainCityEl.text(`${city} (${currentDate})`);
     mainTempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
-    mainWindEl.text(`Wind: ${wind} MPH`);
+    mainWindEl.text(`Wind: ${Math.ceil(wind)} MPH`);
     mainHumidityEl.text(`Humidity: ${humidity}%`);
     mainWeatherConditionsEl.removeClass();
 
@@ -145,7 +149,7 @@ $(function () {
 
     dateEl.text(date);
     tempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
-    windEl.text(`${wind} MPH`);
+    windEl.text(`${Math.ceil(wind)} MPH`);
     humidityEl.text(`${humidity}%`);
     conditionsEl.removeClass();
 
