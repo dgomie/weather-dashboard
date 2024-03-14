@@ -15,7 +15,7 @@ $(function () {
 
   function findCityCoords(cityName) {
     var limit = "1";
-    var coordAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
+    var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
