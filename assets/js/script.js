@@ -30,7 +30,7 @@ $(function () {
         var cityLon = data[0].lon;
 
         createCityButton(cityNameData, cityLat, cityLon);
-        // findCityWeather(cityLat, cityLon);
+        findCityWeather(cityLat, cityLon);
         getFiveDayForecast(cityLat, cityLon);
       });
   }
@@ -59,7 +59,7 @@ $(function () {
   }
 
   function getFiveDayForecast(lat, lon) {
-    var fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&cnt=35&appid=${apiKey}`;
+    var fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&cnt=44&appid=${apiKey}`;
 
     fetch(fiveDayURL)
       .then(function (response) {
@@ -67,18 +67,19 @@ $(function () {
       })
       .then(function (data) {
         console.log(data);
-        var noonWeatherArray = [2, 10, 18, 26, 34];
+        var noonWeatherArray = [7, 15, 23, 31, 39];
         for (let i = 0; i < noonWeatherArray.length; i++) {
           var arrayItem = noonWeatherArray[i];
           var dailyWeatherData = data["list"][arrayItem];
-          console.log("temp: " + dailyWeatherData["main"]["temp"]);
+
           var dailyConditions = dailyWeatherData["weather"]["0"]["id"];
           var dailyTemp = dailyWeatherData["main"]["temp"];
           var dailyWind = dailyWeatherData["wind"]["speed"];
           var dailyHumidity = dailyWeatherData["main"]["humidity"];
+          //   TODO: figure out how to get first day in 5day forecast to be one calendar day after main weather date.
           var unixDate = dailyWeatherData["dt"];
           var dailyDate = dayjs.unix(unixDate);
-          var formattedDate = dailyDate.format("MM/DD/YYYY");
+          var formattedDate = dailyDate.format("M/DD/YYYY");
           console.log(formattedDate);
 
           renderFiveDayForecast(
@@ -99,27 +100,28 @@ $(function () {
     var mainTempEl = $("#main-temp");
     var mainWindEl = $("#main-wind");
     var mainHumidityEl = $("#main-humidity");
-    var currentDate = dayjs().format("MM/DD/YYYY");
+    var currentDate = dayjs().format("M/DD/YYYY");
 
     mainCityEl.text(`${city} (${currentDate})`);
-    mainTempEl.html(`Temp: ${temp} &deg;F`);
+    mainTempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
     mainWindEl.text(`Wind: ${wind} MPH`);
     mainHumidityEl.text(`Humidity: ${humidity}%`);
+    mainWeatherConditionsEl.removeClass();
 
     if (conditions === 800) {
-      mainWeatherConditionsEl.addClass("wi wi-day-sunny");
+      mainWeatherConditionsEl.addClass("wi wi-day-sunny fs-4 m-1");
     } else if (conditions >= 200 && conditions < 300) {
-      mainWeatherConditionsEl.addClass("wi wi-day-thunderstorm");
+      mainWeatherConditionsEl.addClass("wi wi-day-thunderstorm fs-4 m-1");
     } else if (conditions >= 300 && conditions < 400) {
-      mainWeatherConditionsEl.addClass("wi wi-day-showers");
+      mainWeatherConditionsEl.addClass("wi wi-day-showers fs-4 m-1");
     } else if (conditions >= 500 && conditions < 600) {
-      mainWeatherConditionsEl.addClass("wi wi-day-rain");
+      mainWeatherConditionsEl.addClass("wi wi-day-rain fs-4 m-1");
     } else if (conditions >= 600 && conditions < 700) {
-      mainWeatherConditionsEl.addClass("wi wi-day-snow-wind");
+      mainWeatherConditionsEl.addClass("wi wi-day-snow-wind fs-4 m-1");
     } else if (conditions >= 700 && conditions < 800) {
-      mainWeatherConditionsEl.addClass("wi wi-day-haze");
+      mainWeatherConditionsEl.addClass("wi wi-day-haze fs-4 m-1");
     } else if (conditions >= 801 && conditions < 900) {
-      mainWeatherConditionsEl.addClass("wi wi-day-cloudy");
+      mainWeatherConditionsEl.addClass("wi wi-day-cloudy fs-4 m-1");
     }
   }
 
@@ -139,24 +141,25 @@ $(function () {
     var humidityEl = $(`#day-${index}-humidity`);
 
     dateEl.text(date);
-    tempEl.html(`Temp: ${temp} &deg;F`);
-    windEl.text(wind);
-    humidityEl.text(humidity);
+    tempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
+    windEl.text(`${wind} MPH`);
+    humidityEl.text(`${humidity}%`);
+    conditionsEl.removeClass();
 
     if (conditions === 800) {
-      conditionsEl.addClass("wi wi-day-sunny");
+      conditionsEl.addClass("wi wi-day-sunny fs-4 m-1");
     } else if (conditions >= 200 && conditions < 300) {
-      conditionsEl.addClass("wi wi-day-thunderstorm");
+      conditionsEl.addClass("wi wi-day-thunderstorm fs-4 m-1");
     } else if (conditions >= 300 && conditions < 400) {
-      conditionsEl.addClass("wi wi-day-showers");
+      conditionsEl.addClass("wi wi-day-showers fs-4 m-1");
     } else if (conditions >= 500 && conditions < 600) {
-      conditionsEl.addClass("wi wi-day-rain");
+      conditionsEl.addClass("wi wi-day-rain fs-4 m-1");
     } else if (conditions >= 600 && conditions < 700) {
-      conditionsEl.addClass("wi wi-day-snow-wind");
+      conditionsEl.addClass("wi wi-day-snow-wind fs-4 m-1");
     } else if (conditions >= 700 && conditions < 800) {
-      conditionsEl.addClass("wi wi-day-haze");
+      conditionsEl.addClass("wi wi-day-haze fs-4 m-1");
     } else if (conditions >= 801 && conditions < 900) {
-      conditionsEl.addClass("wi wi-day-cloudy");
+      conditionsEl.addClass("wi wi-day-cloudy fs-4 m-1");
     }
   }
 
@@ -165,6 +168,7 @@ $(function () {
   }
 
   function createCityButton(city, lat, lon) {
+    // TODO: create an if statement to checks if city button already exists
     var pastCityButtonsEl = $("#past-city-buttons");
     var newButton = $("<button>");
     newButton.attr("id", `#${city}`);
@@ -175,11 +179,13 @@ $(function () {
     newButton.text(city);
     newButton.on("click", function () {
       findCityWeather(lat, lon);
+      getFiveDayForecast(lat, lon);
     });
 
     pastCityButtonsEl.append(newButton);
   }
 
+  //   TODO: create function that saves cities to local storage
   //   function saveCitySearch(city, lat, lon) {}
 
   searchButtonEl.on("click", searchCityWeather);
