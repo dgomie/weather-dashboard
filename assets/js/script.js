@@ -1,8 +1,5 @@
 $(function () {
-  $.getScript("./assets/js/config.js", function () {
-    console.log("API key loaded");
-  });
-  var apiKey = API_KEY;
+  var apiKey = "bb7b7deb2ff7e1bdb30279ceac88462c";
 
   var searchButtonEl = $("#search");
 
