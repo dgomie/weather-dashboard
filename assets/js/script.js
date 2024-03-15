@@ -7,7 +7,6 @@ $(function () {
   function searchCityWeather(event) {
     event.preventDefault();
     var cityName = $("#city-name-input").val();
-    console.log(cityName);
 
     findCityCoords(cityName);
 
@@ -15,7 +14,7 @@ $(function () {
   }
 
   function findCityCoords(cityName) {
-    var limit = "1";
+    var limit = "5";
     var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
@@ -27,9 +26,9 @@ $(function () {
           //add validation if cityName input returns no results
           return alert("Cannot find city name. Please try again.");
         } else {
-          console.log(data[0].name);
-          console.log(data[0].lon);
-          console.log(data[0].lat);
+          // console.log(data[0].name);
+          // console.log(data[0].lon);
+          // console.log(data[0].lat);
           var cityNameData = data[0].name;
           var cityLat = data[0].lat;
           var cityLon = data[0].lon;
@@ -37,6 +36,7 @@ $(function () {
           findCityWeather(cityLat, cityLon);
           getFiveDayForecast(cityLat, cityLon);
           saveToLocalStorage(cityNameData, cityLat, cityLon);
+          createCityButtons();
         }
       });
   }
@@ -86,7 +86,6 @@ $(function () {
           var unixDate = dailyWeatherData["dt"];
           var dailyDate = dayjs.unix(unixDate);
           var formattedDate = dailyDate.format("M/DD/YYYY");
-          console.log(formattedDate);
 
           renderFiveDayForecast(
             i,
@@ -145,17 +144,15 @@ $(function () {
     $("#city-name-input").val("");
   }
 
-  function clearCityButtons(){
-    var 
-    for (let i = 0; i < array.length; i++) {
-      const element = array[i];
-      
-    }
+  function clearCityButtons() {
+    var buttonsParentEl = $("#past-city-buttons");
+    buttonsParentEl.empty();
   }
 
   function createCityButtons() {
+    clearCityButtons();
     var storedData = JSON.parse(localStorage.getItem("cityData"));
-    if (storedData.length > 0) {
+    if (storedData !== null) {
       for (let i = 0; i < storedData.length; i++) {
         var city = storedData[i]["cityName"];
         var lat = storedData[i]["cityLat"];
@@ -169,10 +166,13 @@ $(function () {
           "btn btn-secondary text-light col-12 my-1 nanum-gothic-regular"
         );
         newButton.text(city);
-        newButton.on("click", function () {
-          findCityWeather(lat, lon);
-          getFiveDayForecast(lat, lon);
-        });
+    
+        (function(lat, lon) {
+          newButton.on("click", function () {
+              findCityWeather(lat, lon);
+              getFiveDayForecast(lat, lon);
+          });
+        })(lat, lon);
 
         pastCityButtonsEl.append(newButton);
       }
@@ -197,16 +197,13 @@ $(function () {
     }
   }
 
-  //   TODO: create function that saves cities to local storage
-
   function saveToLocalStorage(city, lat, lon) {
-    console.log(city);
     var cityData = {
       cityName: city,
       cityLat: lat,
       cityLon: lon,
     };
-
+    
     var storedData = JSON.parse(localStorage.getItem("cityData")) || [];
     console.log("storedData", storedData);
 
@@ -219,7 +216,7 @@ $(function () {
 
     storedData.push(cityData);
     localStorage.setItem("cityData", JSON.stringify(storedData));
-    console.log("New City Saved");
+    // console.log("New City Saved");
   }
   createCityButtons();
   searchButtonEl.on("click", searchCityWeather);
