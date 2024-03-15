@@ -34,9 +34,10 @@ $(function () {
           var cityLat = data[0].lat;
           var cityLon = data[0].lon;
 
-          createCityButton(cityNameData, cityLat, cityLon);
           findCityWeather(cityLat, cityLon);
           getFiveDayForecast(cityLat, cityLon);
+          // Save to local storage function goes here
+          saveToLocalStorage(cityNameData, cityLat, cityLon);
         }
       });
   }
@@ -114,7 +115,7 @@ $(function () {
     mainHumidityEl.text(`Humidity: ${humidity}%`);
     mainWeatherConditionsEl.removeClass();
 
-    renderWeatherIcon(mainWeatherConditionsEl, conditions)
+    renderWeatherIcon(mainWeatherConditionsEl, conditions);
   }
 
   function renderFiveDayForecast(
@@ -139,7 +140,6 @@ $(function () {
     conditionsEl.removeClass();
 
     renderWeatherIcon(conditionsEl, conditions);
-
   }
 
   function clearSearch() {
@@ -164,8 +164,7 @@ $(function () {
     pastCityButtonsEl.append(newButton);
   }
 
-  function renderWeatherIcon(element, conditions){
-
+  function renderWeatherIcon(element, conditions) {
     if (conditions === 800) {
       element.addClass("wi wi-day-sunny fs-4 m-1");
     } else if (conditions >= 200 && conditions < 300) {
@@ -184,7 +183,30 @@ $(function () {
   }
 
   //   TODO: create function that saves cities to local storage
-  //   function saveCitySearch(city, lat, lon) {}
 
+  function saveToLocalStorage(city, lat, lon) {
+    console.log(city)
+    var cityData = {
+      cityName: city,
+      cityLat: lat,
+      cityLon: lon,
+    };
+
+    var storedData = JSON.parse(localStorage.getItem("cityData")) || [];
+    console.log("storedData", storedData);
+
+    for (let i = 0; i < storedData.length; i++) {
+      if (storedData[i]["cityName"] === cityData["cityName"]) {
+        console.log("City already saved");
+        return;
+      }
+    }
+
+    storedData.push(cityData);
+    localStorage.setItem("cityData", JSON.stringify(storedData));
+    console.log("New City Saved");
+    
+  }
+  createCityButton();
   searchButtonEl.on("click", searchCityWeather);
 });
