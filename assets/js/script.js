@@ -36,7 +36,6 @@ $(function () {
 
           findCityWeather(cityLat, cityLon);
           getFiveDayForecast(cityLat, cityLon);
-          // Save to local storage function goes here
           saveToLocalStorage(cityNameData, cityLat, cityLon);
         }
       });
@@ -146,22 +145,38 @@ $(function () {
     $("#city-name-input").val("");
   }
 
-  function createCityButton(city, lat, lon) {
-    // TODO: create an if statement to checks if city button already exists
-    var pastCityButtonsEl = $("#past-city-buttons");
-    var newButton = $("<button>");
-    newButton.attr("id", `#${city}`);
-    newButton.attr("city", `#${city}`);
-    newButton.addClass(
-      "btn btn-secondary text-light col-12 my-1 nanum-gothic-regular"
-    );
-    newButton.text(city);
-    newButton.on("click", function () {
-      findCityWeather(lat, lon);
-      getFiveDayForecast(lat, lon);
-    });
+  function clearCityButtons(){
+    var 
+    for (let i = 0; i < array.length; i++) {
+      const element = array[i];
+      
+    }
+  }
 
-    pastCityButtonsEl.append(newButton);
+  function createCityButtons() {
+    var storedData = JSON.parse(localStorage.getItem("cityData"));
+    if (storedData.length > 0) {
+      for (let i = 0; i < storedData.length; i++) {
+        var city = storedData[i]["cityName"];
+        var lat = storedData[i]["cityLat"];
+        var lon = storedData[i]["cityLon"];
+
+        var pastCityButtonsEl = $("#past-city-buttons");
+        var newButton = $("<button>");
+        newButton.attr("id", `#${city}`);
+        newButton.attr("city", `#${city}`);
+        newButton.addClass(
+          "btn btn-secondary text-light col-12 my-1 nanum-gothic-regular"
+        );
+        newButton.text(city);
+        newButton.on("click", function () {
+          findCityWeather(lat, lon);
+          getFiveDayForecast(lat, lon);
+        });
+
+        pastCityButtonsEl.append(newButton);
+      }
+    }
   }
 
   function renderWeatherIcon(element, conditions) {
@@ -185,7 +200,7 @@ $(function () {
   //   TODO: create function that saves cities to local storage
 
   function saveToLocalStorage(city, lat, lon) {
-    console.log(city)
+    console.log(city);
     var cityData = {
       cityName: city,
       cityLat: lat,
@@ -205,8 +220,7 @@ $(function () {
     storedData.push(cityData);
     localStorage.setItem("cityData", JSON.stringify(storedData));
     console.log("New City Saved");
-    
   }
-  createCityButton();
+  createCityButtons();
   searchButtonEl.on("click", searchCityWeather);
 });
