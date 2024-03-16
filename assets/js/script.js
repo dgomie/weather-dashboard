@@ -25,7 +25,7 @@ $(function () {
           //add validation if cityName input returns no results
           return alert("Cannot find city name. Please try again.");
         } else {
-          console.log(data);
+          // console.log(data);
           var cityLat = data[0].lat;
           var cityLon = data[0].lon;
 
@@ -44,7 +44,8 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
+        //grabbing city and weather data from response json
+        // console.log(data);
         var city = data["name"];
         var temp = data["main"]["temp"];
         var humidity = data["main"]["humidity"];
@@ -69,6 +70,7 @@ $(function () {
         var highTemps = getHighTemperatures(data);
         var timeStampArray = [0, 8, 16, 24, 32];
 
+        //iterates through the five day forecast to create variables for the weather data and render them in the premade html cards.
         for (let i = 0; i < timeStampArray.length; i++) {
           var arrayItem = timeStampArray[i];
           var dailyWeatherData = data["list"][arrayItem];
@@ -101,6 +103,7 @@ $(function () {
     var mainHumidityEl = $("#main-humidity");
     var currentDate = dayjs().format("M/DD/YYYY");
 
+    //changes the text of the html elements to the specified weather data
     mainCityEl.text(`${city} (${currentDate})`);
     mainTempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
     mainWindEl.text(`Wind: ${Math.ceil(wind)} MPH`);
@@ -119,7 +122,7 @@ $(function () {
     wind,
     humidity
   ) {
-    index++;
+    index++; //adds 1 to index to match with the id label in html
     var dateEl = $(`#day-${index}-date`);
     var conditionsEl = $(`#day-${index}-conditions`);
     var tempEl = $(`#day-${index}-temp`);
@@ -150,6 +153,7 @@ $(function () {
     clearCityButtons();
     var storedData = JSON.parse(localStorage.getItem("cityData"));
     if (storedData !== null) {
+      //if stored data exists, create button from storedData array
       for (let i = 0; i < storedData.length; i++) {
         var city = storedData[i]["cityName"];
         var lat = storedData[i]["cityLat"];
@@ -179,18 +183,25 @@ $(function () {
   // Looks through the condition code for day and changes html element argument to display appropiate weather condition icon
   function renderWeatherIcon(element, conditions) {
     if (conditions === 800) {
+      //sunny weather
       element.addClass("wi wi-day-sunny fs-4 m-1");
     } else if (conditions >= 200 && conditions < 300) {
+      //thunderstorms
       element.addClass("wi wi-day-thunderstorm fs-4 m-1");
     } else if (conditions >= 300 && conditions < 400) {
+      //rain showers
       element.addClass("wi wi-day-showers fs-4 m-1");
     } else if (conditions >= 500 && conditions < 600) {
+      //rain
       element.addClass("wi wi-day-rain fs-4 m-1");
     } else if (conditions >= 600 && conditions < 700) {
+      //snow
       element.addClass("wi wi-day-snow-wind fs-4 m-1");
     } else if (conditions >= 700 && conditions < 800) {
+      //hazy
       element.addClass("wi wi-day-haze fs-4 m-1");
     } else if (conditions >= 801 && conditions < 900) {
+      //cloudy
       element.addClass("wi wi-day-cloudy fs-4 m-1");
     }
   }
@@ -203,7 +214,7 @@ $(function () {
       cityLon: lon,
     };
 
-    var storedData = JSON.parse(localStorage.getItem("cityData")) || [];
+    var storedData = JSON.parse(localStorage.getItem("cityData")) || []; //get localStorage array if exists or create a new array if it doesn't exist
     for (let i = 0; i < storedData.length; i++) {
       if (storedData[i]["cityName"] === cityData["cityName"]) {
         return;
@@ -211,6 +222,7 @@ $(function () {
     }
 
     if (storedData.length > 9) {
+      //remove oldest search once storedData reaches 10 objects
       storedData.shift();
     }
     storedData.push(cityData);
