@@ -65,7 +65,7 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
+        // console.log(data);
         var highTemps = getHighTemperatures(data);
         var timeStampArray = [0, 8, 16, 24, 32];
 
@@ -235,7 +235,7 @@ $(function () {
         }
       }
     });
-    console.log(highTemps)
+    // console.log(highTemps)
     return highTemps;
   }
 
