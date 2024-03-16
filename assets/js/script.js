@@ -200,7 +200,7 @@ $(function () {
     } else if (conditions >= 700 && conditions < 800) {
       //hazy
       element.addClass("wi wi-day-haze fs-4 m-1");
-    } else if (conditions >= 802) {
+    } else if (conditions === 802) {
       //cloudy
       element.addClass("wi wi-cloudy fs-4 m-1");
     } else if (conditions >= 801 && conditions < 900) {
