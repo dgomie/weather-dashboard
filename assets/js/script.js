@@ -14,14 +14,13 @@ $(function () {
 
   // Fetches searched city latitude and longitude. Alerts user if city can't be found. If found, invokes findCityWeather(), getFiveDayForcast(), saveToLocalStorage(), and createCityButtons()
   function findCityCoords(cityName) {
-    var limit = "5";
+    var limit = "1";
     var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
         if (data.length === 0) {
           //add validation if cityName input returns no results
           return alert("Cannot find city name. Please try again.");
@@ -47,16 +46,11 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
-        // console.log("City name: " + data["name"]);
+        // console.log(data);
         var city = data["name"];
-        // console.log("temp: " + data["main"]["temp"]);
         var temp = data["main"]["temp"];
-        // console.log("humidity: " + data["main"]["humidity"]);
         var humidity = data["main"]["humidity"];
-        // console.log("wind: " + data["wind"]["speed"]);
         var wind = data["wind"]["speed"];
-        // console.log("conditions: " + data["weather"][0]["id"]);
         var weatherConditions = data["weather"][0]["id"];
         renderMainWeatherData(city, weatherConditions, temp, humidity, wind);
       });
@@ -71,11 +65,8 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
-
+        // console.log(data);
         var highTemps = getHighTemperatures(data);
-        console.log("high temps")
-        console.log(highTemps)
         var timeStampArray = [8, 16, 24, 32, 39];
 
         for (let i = 0; i < timeStampArray.length; i++) {
@@ -101,7 +92,7 @@ $(function () {
         }
       });
   }
-// Renders the current weather data into the main weather section in html. Invokes renderWeatherIcon function to determine weather conditions for the current day.
+  // Renders the current weather data into the main weather section in html. Invokes renderWeatherIcon function to determine weather conditions for the current day.
   function renderMainWeatherData(city, conditions, temp, humidity, wind) {
     var mainCityEl = $("#current-city-name");
     var mainWeatherConditionsEl = $("#weather-conditions");
@@ -137,13 +128,13 @@ $(function () {
 
     dateEl.text(date);
     tempEl.html(`Temp: ${Math.ceil(temp)} &deg;F`);
-    windEl.text(`${Math.ceil(wind)} MPH`);
-    humidityEl.text(`${humidity}%`);
+    windEl.text(`Wind: ${Math.ceil(wind)} MPH`);
+    humidityEl.text(`Humidity: ${humidity}%`);
     conditionsEl.removeClass();
 
     renderWeatherIcon(conditionsEl, conditions);
   }
-// Clears search box by replacing search value with an empty string
+  // Clears search box by replacing search value with an empty string
   function clearSearch() {
     $("#city-name-input").val("");
   }
@@ -152,7 +143,7 @@ $(function () {
   function clearCityButtons() {
     var buttonsParentEl = $("#past-city-buttons");
     buttonsParentEl.empty();
-  };
+  }
 
   // Creates a button from previously searched city that's been saved in localStorage. Button will repopulate weather with button city's forecast
   function createCityButtons() {
@@ -213,18 +204,14 @@ $(function () {
     };
 
     var storedData = JSON.parse(localStorage.getItem("cityData")) || [];
-    console.log("storedData", storedData);
-
     for (let i = 0; i < storedData.length; i++) {
       if (storedData[i]["cityName"] === cityData["cityName"]) {
-        console.log("City already saved");
         return;
       }
     }
 
     if (storedData.length > 9) {
       storedData.shift();
-      console.log("stored data shift", storedData);
     }
     storedData.push(cityData);
     localStorage.setItem("cityData", JSON.stringify(storedData));
