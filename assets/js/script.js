@@ -12,7 +12,7 @@ $(function () {
     clearSearch();
   }
 
-  // Fetches searched city latitude and longitude. Alerts user if city can't be found. If found, invokes findCityWeather(), getFiveDayForcast(), saveToLocalStorage(), and createCityButtons()
+  // Fetches searched city latitude and longitude. Alerts user if city can't be found. If found, invokes findCityWeather(), getFiveDayForcast()
   function findCityCoords(cityName) {
     var limit = "1";
     var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${apiKey}`;
@@ -25,14 +25,12 @@ $(function () {
           //add validation if cityName input returns no results
           return alert("Cannot find city name. Please try again.");
         } else {
-          var cityNameData = data[0].name;
+          console.log(data);
           var cityLat = data[0].lat;
           var cityLon = data[0].lon;
 
           findCityWeather(cityLat, cityLon);
           getFiveDayForecast(cityLat, cityLon);
-          saveToLocalStorage(cityNameData, cityLat, cityLon);
-          createCityButtons();
         }
       });
   }
@@ -46,12 +44,14 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        // console.log(data);
+        console.log(data);
         var city = data["name"];
         var temp = data["main"]["temp"];
         var humidity = data["main"]["humidity"];
         var wind = data["wind"]["speed"];
         var weatherConditions = data["weather"][0]["id"];
+        saveToLocalStorage(city, lat, lon);
+        createCityButtons();
         renderMainWeatherData(city, weatherConditions, temp, humidity, wind);
       });
   }
