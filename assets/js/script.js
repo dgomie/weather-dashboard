@@ -187,19 +187,22 @@ $(function () {
       element.addClass("wi wi-day-sunny fs-4 m-1");
     } else if (conditions >= 200 && conditions < 300) {
       //thunderstorms
-      element.addClass("wi wi-day-thunderstorm fs-4 m-1");
+      element.addClass("wi wi-thunderstorm fs-4 m-1");
     } else if (conditions >= 300 && conditions < 400) {
       //rain showers
-      element.addClass("wi wi-day-showers fs-4 m-1");
+      element.addClass("wi wi-showers fs-4 m-1");
     } else if (conditions >= 500 && conditions < 600) {
       //rain
-      element.addClass("wi wi-day-rain fs-4 m-1");
+      element.addClass("wi wi-rain fs-4 m-1");
     } else if (conditions >= 600 && conditions < 700) {
       //snow
-      element.addClass("wi wi-day-snow-wind fs-4 m-1");
+      element.addClass("wi wi-snow fs-4 m-1");
     } else if (conditions >= 700 && conditions < 800) {
       //hazy
       element.addClass("wi wi-day-haze fs-4 m-1");
+    } else if (conditions >= 802) {
+      //cloudy
+      element.addClass("wi wi-cloudy fs-4 m-1");
     } else if (conditions >= 801 && conditions < 900) {
       //cloudy
       element.addClass("wi wi-day-cloudy fs-4 m-1");
