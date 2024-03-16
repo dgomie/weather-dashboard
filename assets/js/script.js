@@ -15,7 +15,7 @@ $(function () {
   // Fetches searched city latitude and longitude. Alerts user if city can't be found. If found, invokes findCityWeather(), getFiveDayForcast(), saveToLocalStorage(), and createCityButtons()
   function findCityCoords(cityName) {
     var limit = "1";
-    var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
+    var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
@@ -65,9 +65,9 @@ $(function () {
         return response.json();
       })
       .then(function (data) {
-        // console.log(data);
+        console.log(data);
         var highTemps = getHighTemperatures(data);
-        var timeStampArray = [8, 16, 24, 32, 39];
+        var timeStampArray = [0, 8, 16, 24, 32];
 
         for (let i = 0; i < timeStampArray.length; i++) {
           var arrayItem = timeStampArray[i];
@@ -235,6 +235,7 @@ $(function () {
         }
       }
     });
+    console.log(highTemps)
     return highTemps;
   }
 

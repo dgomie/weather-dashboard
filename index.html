@@ -14,12 +14,12 @@
     <!-- style.css -->
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
-    
+    <!-- Header Section -->
   <body class="flex-row min-100-vh p-2">
     <header class="hero bg-primary text-light text-center nanum-gothic-bold">
       <h1>Weather Dashboard</h1>
     </header>
-  
+  <!-- Search bar -->
     <main class="row justify-space-between">
       <div class="col-12 col-lg-3 col-md-4 nanum-gothic-regular">
         <div class="card border-0">
@@ -28,16 +28,14 @@
             <input name="city-name" id="city-name-input" type="text" autofocus="true"  placeholder="Type a City Name" class="form-input col-12 py-1 my-1" />
             <button type="submit" id="search" class="btn btn-info col-12 my-1 text-dark ">Search</button>
           </form>
-  
           <hr>
-  
+          <!-- Previously searched cities container -->
           <div id="past-city-buttons" class="card-footer bg-white border-0">
-            <!-- <button id="Tampa"city="Tampa" class="btn btn-secondary text-light col-12 my-1 nanum-gothic-regular">Tampa</button> -->
           </div>
    
         </div>
       </div>
-  
+  <!-- City's Current Weather -->
       <div class="col-12 col-md-9 nanum-gothic-regular">
         <div class="card my-2">
           <div id="current-city-weather" class="card-body">
@@ -51,10 +49,11 @@
             </div>
           </div>
           <h4 class="my-2">5-Day Forecast: </h4>
-<!-- TODO: make font sizes smaller for 5 day forecast -->
+          <!-- 5-Day Forecast container -->
           <div class="container p-0">
             <div class="row align-items-start">
-              <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <!-- Day 1 card -->
+              <div class="col-lg-2 col-md-3 ">
                 <div class="card bg-info text-dark p-2">
                   <ul class="list-unstyled">
                     <li id="day-1-date" class="custom-fs"></li>
@@ -65,8 +64,8 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <!-- Day 2 card -->
+              <div class="col-lg-2 col-md-3 ">
                 <div class="card bg-info text-dark p-2">
                   <ul class="list-unstyled">
                     <li id="day-2-date" class="custom-fs"></li>
@@ -77,8 +76,8 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <!-- Day 3 card -->
+              <div class="col-lg-2 col-md-3">
                 <div class="card bg-info text-dark p-2">
                   <ul class="list-unstyled">
                     <li id="day-3-date" class="custom-fs"></li>
@@ -89,8 +88,8 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <!-- Day 4 card -->
+              <div class="col-lg-2 col-md-3  ">
                 <div class="card bg-info text-dark p-2">
                   <ul class="list-unstyled">
                     <li id="day-4-date" class="custom-fs"></li>
@@ -101,8 +100,8 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <!-- Day 5 card -->
+              <div class="col-lg-2 col-md-3 ">
                 <div class="card bg-info text-dark p-2">
                   <ul class="list-unstyled">
                     <li id="day-5-date" class="custom-fs"></li>
@@ -115,13 +114,10 @@
               </div>
               
           </div>
-          
           </div>
         </div>
       </div>
     </main>
-  </body>
-
 
     <!-- jQuery script -->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
