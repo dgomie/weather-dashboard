@@ -15,7 +15,7 @@ $(function () {
   // Fetches searched city latitude and longitude. Alerts user if city can't be found. If found, invokes findCityWeather(), getFiveDayForcast()
   function findCityCoords(cityName) {
     var limit = "1";
-    var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${apiKey}`;
+    var coordAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},US&limit=${limit}&appid=${apiKey}`;
     fetch(coordAPIUrl)
       .then(function (response) {
         return response.json();
@@ -68,7 +68,7 @@ $(function () {
       .then(function (data) {
         // console.log(data);
         var highTemps = getHighTemperatures(data);
-        var timeStampArray = [0, 8, 16, 24, 32];
+        var timeStampArray = [8, 16, 24, 32, 39];
 
         //iterates through the five day forecast to create variables for the weather data and render them in the premade html cards.
         for (let i = 0; i < timeStampArray.length; i++) {
