@@ -166,11 +166,11 @@ $(function () {
           "btn btn-secondary text-light col-12 my-1 nanum-gothic-regular"
         );
         newButton.text(city);
-    
-        (function(lat, lon) {
+
+        (function (lat, lon) {
           newButton.on("click", function () {
-              findCityWeather(lat, lon);
-              getFiveDayForecast(lat, lon);
+            findCityWeather(lat, lon);
+            getFiveDayForecast(lat, lon);
           });
         })(lat, lon);
 
@@ -203,7 +203,7 @@ $(function () {
       cityLat: lat,
       cityLon: lon,
     };
-    
+
     var storedData = JSON.parse(localStorage.getItem("cityData")) || [];
     console.log("storedData", storedData);
 
@@ -214,10 +214,14 @@ $(function () {
       }
     }
 
+    if (storedData.length > 9) {
+      storedData.shift();
+      console.log("stored data shift", storedData);
+    }
     storedData.push(cityData);
     localStorage.setItem("cityData", JSON.stringify(storedData));
-    // console.log("New City Saved");
   }
+
   createCityButtons();
   searchButtonEl.on("click", searchCityWeather);
 });
